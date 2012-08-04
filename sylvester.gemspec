@@ -39,7 +39,8 @@ Gem::Specification.new do |s|
     "spec/support/bin_helper.rb",
     "spec/support/test_shares.rb",
     "spec/sylvester/share_spec.rb",
-    "spec/sylvester_spec.rb"
+    "spec/sylvester_spec.rb",
+    "sylvester.gemspec"
   ]
   s.homepage = "http://github.com/awebneck/sylvester"
   s.licenses = ["MIT"]
