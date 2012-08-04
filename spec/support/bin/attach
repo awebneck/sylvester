@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+require "#{File.dirname(__FILE__)}/../bin_helper"
+
+class Attacher
+  def initialize(key,size)
+    @share = Sylvester::Share.new ARGV[0].to_i, ARGV[1].to_i
+    @running = true
+    run
+  end
+
+  def handle_interrupt
+    Proc.new do
+      @running = false
+      @share.detach!
+    end
+  end
+
+  def run
+    while @running
+      trap("INT", &handle_interrupt)
+      trap("KILL", &handle_interrupt)
+      trap("QUIT", &handle_interrupt)
+      trap("TERM", &handle_interrupt)
+      trap("HUP", &handle_interrupt)
+    end
+  end
+end
+
+@attacher = Attacher.new ARGV[0].to_i, ARGV[1].to_i
+

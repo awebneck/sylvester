@@ -2,6 +2,8 @@
 
 require 'rubygems'
 require 'bundler'
+require 'pry'
+
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
@@ -46,4 +48,15 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "sylvester #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+desc "Compile for testing"
+task :buildext do
+  puts `/usr/bin/env ruby #{File.dirname(__FILE__)}/ext/sylvester/extconf.rb`
+  puts `/usr/bin/make`
+  puts `rm *.o > /dev/null 2>&1`
+  puts `rm mkmf.log > /dev/null 2>&1`
+  puts `rm Makefile > /dev/null 2>&1`
+  puts `mkdir -p #{File.dirname(__FILE__)}/spec/build/sylvester > /dev/null 2>&1`
+  Kernel.exec "mv sylvester.{bundle,so} #{File.dirname(__FILE__)}/lib > /dev/null 2>&1"
 end
