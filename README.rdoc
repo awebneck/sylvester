@@ -1,6 +1,6 @@
 = sylvester
 
-Description goes here.
+SYLVESTER IS UNDER ACTIVE DEVELOPMENT, AND IS NOT YET READY FOR PRODUCTION USE! DO NOT USE IN PRODUCTION UNTIL WE HIT v1.0.0!
 
 == Contributing to sylvester
  
