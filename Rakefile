@@ -19,8 +19,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "sylvester"
   gem.homepage = "http://github.com/awebneck/sylvester"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{A ruby library for interacting with, storing, and reading basic ruby objects from System V shared memory}
+  gem.description = %Q{The beginnings of a handy ruby interface for System V shared memory, making it accessible and easy to use directly from ruby. Plans are to simply treat it as a string to begin with, thereafter building more complex data structures that will implement the interfaces (where appropriate) of their stack-based counterparts.}
   gem.email = "jeremy@jeremypholland.com"
   gem.authors = ["Jeremy Holland"]
   # dependencies defined in Gemfile
