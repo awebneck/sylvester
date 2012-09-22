@@ -25,4 +25,5 @@ void Init_sylvester(void) {
    */
   sylvester_init_errors();
   sylvester_init_share();
+  sylvester_init_ba_share();
 }

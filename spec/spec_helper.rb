@@ -18,4 +18,6 @@ Spork.prefork do
 end
 
 Spork.each_run do
+  Dir["#{File.dirname(__FILE__)}/../lib/**/*.rb"].each {|f| load f }
+  require "#{File.dirname(__FILE__)}/../lib/sylvester.so"
 end

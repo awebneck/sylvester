@@ -40,7 +40,7 @@ static VALUE sshare_validate_size(VALUE size) {
 /**
  * Returns the integer share reference for a given key
  */
-int sshare_get_share_reference(key_t key, int sz) {
+static int sshare_get_share_reference(key_t key, int sz) {
   int shmid;
 
   if ((shmid = shmget(key, sz, IPC_CREAT | 0666)) < 0)
@@ -53,7 +53,7 @@ int sshare_get_share_reference(key_t key, int sz) {
  * key and of the specified size to the current process,
  * returning a pointer thereinto for readonly purposes
  */
-void sshare_attach_share(key_t key, int sz, int shmid, void **shmaddr, int *attached) {
+static void sshare_attach_share(key_t key, int sz, int shmid, void **shmaddr, int *attached) {
   if (!*attached) {
     if ((*shmaddr = shmat(shmid, NULL, 0)) == (int *)-1)
       rb_raise(cSylvesterAttachmentError, "Error attaching shared memory for key %d of size %d: [%d] %s", key, sz, errno, strerror(errno));
@@ -65,7 +65,7 @@ void sshare_attach_share(key_t key, int sz, int shmid, void **shmaddr, int *atta
  * Detaches a unit of shared memory at the specified
  * key and of the specified size from the current process.
  */
-void sshare_detach_share(key_t key, int sz, void *shmaddr, int *attached) {
+static void sshare_detach_share(key_t key, int sz, void *shmaddr, int *attached) {
   if (*attached) {
     if ((shmdt(shmaddr)) == -1)
       rb_raise(cSylvesterDetachmentError, "Error detaching shared memory for key %d of size %d: [%d] %s", (unsigned int)key, sz, errno, strerror(errno));
@@ -77,7 +77,7 @@ void sshare_detach_share(key_t key, int sz, void *shmaddr, int *attached) {
  * Destroys a unit of shared memory at the specified
  * key and of the specified size from the current process.
  */
-void sshare_destroy_share(key_t key, int sz, int shmid, void *shmaddr, int *attached) {
+static void sshare_destroy_share(key_t key, int sz, int shmid, void *shmaddr, int *attached) {
   struct shmid_ds *databuf;
 
   sshare_detach_share(key, sz, shmaddr, attached);
@@ -91,7 +91,7 @@ void sshare_destroy_share(key_t key, int sz, int shmid, void *shmaddr, int *atta
 /**
  * Returns the number of currently attached processes
  */
-int sshare_get_attachment_count(key_t key, int sz, int shmid) {
+static int sshare_get_attachment_count(key_t key, int sz, int shmid) {
   struct shmid_ds *databuf;
   int count;
 
@@ -146,11 +146,12 @@ static void sshare_parse_init_opts(SsharePtr sshare, VALUE opts) {
 
 /**
  * Constructor:
- *   Takes 1 argument, being the refkey for shared
- *   memory. Attaches such memory to the process, allowing
+ *   Takes 3 arguments (1 optional), being the refkey for
+ *   shared memory, the size to requisition, and a hash of
+ *   options. Attaches said memory to the process, allowing
  *   it to be queried
  */
-static VALUE sshare_init(int argc, VALUE *argv, VALUE self) {
+extern VALUE sshare_init(int argc, VALUE *argv, VALUE self) {
   VALUE key, shmsz, opts, autoattach;
   SsharePtr sshare;
 

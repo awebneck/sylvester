@@ -13,6 +13,7 @@
 
 #include <sylvester_errors.h>
 #include <sylvester_share.h>
+#include <sylvester_bytearray_share.h>
 
 /* ====================== EXTERNALS ====================== */
 

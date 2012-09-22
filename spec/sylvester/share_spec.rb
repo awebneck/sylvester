@@ -122,7 +122,15 @@ describe Sylvester::Share do
       end
     end
 
-    describe "destroy!"
+    describe "destroy!" do
+      it "should destroy the share" do
+        share = Sylvester::Share.new share_params[:key], share_params[:size]
+        share2 = Sylvester::Share.new share_params[:key], share_params[:size]
+        share.attachment_count.should == 2
+        share.destroy!
+        lambda { share2.destroy! }.should raise_error Sylvester::MetadataError
+      end
+    end
 
     describe "attachment_count" do
       it "should return the number of current attachments" do
